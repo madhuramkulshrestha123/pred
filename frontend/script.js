@@ -1,14 +1,18 @@
-
 const apiEndpoint = 'http://127.0.0.1:5000/predict_traffic';
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    fetchData();
+    if (!window.dataFetched) {  
+        console.log("Initializing data fetch..."); // Log when fetchData is triggered
+        window.dataFetched = true;
+        fetchData();
+    }
 });
 
 function fetchData() {
+    console.log("Fetching data..."); // Log each fetch attempt to debug
+
     const requestData = {
-        user_id: '1234567890',  // Replace with your test user ID
+        user_id: '1234567899',  // Replace with your test user ID
         timestamp: '2024-11-9 13:30:00'  // Replace with a test timestamp
     };
 
@@ -26,7 +30,7 @@ function fetchData() {
         return response.json();
     })
     .then(data => {
-        console.log('Data received:', data);  // Log the response data
+        console.log('Data received:', data);
         displayData(data);
         renderChart(data.avg_slot_info);
     })
@@ -35,9 +39,7 @@ function fetchData() {
     });
 }
 
-
 function displayData(data) {
-    // Displaying the data in the HTML
     document.getElementById('user-id').innerText = data.id;
     document.getElementById('date').innerText = new Date().toLocaleDateString();
     document.getElementById('day').innerText = data.day;
